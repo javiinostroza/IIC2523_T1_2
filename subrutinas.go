@@ -6,7 +6,6 @@ import (
 	"bufio"
 	conv "strconv"
 	str "strings"
-	"time"
 )
 
 func check(e error) { // Based on https://gobyexample.com/writing-files
@@ -54,14 +53,10 @@ func merge(a []int, b []int) []int {
 
 func mergeRoutine(list_ []int, channel chan []int) {
 	fmt.Println("en turnina ", list_)
-	sorted := mergeSort(list_)
-	fmt.Println("sorted: ", sorted)
-	channel <- sorted
+	list_ = mergeSort(list_)
+	fmt.Println("sorted: ", list_)
+	channel <- list_
 }
-
-
-
-
 
 func main() {
 	array := [16] int{}
@@ -92,31 +87,34 @@ func main() {
 	subArr3 := <- channel3
 	subArr4 := <- channel4
 
-	//list1 := []int{}
-	//list2 := []int{}
-	time.Sleep(3 * time.Second)
+	list1 := []int{}
+	list2 := []int{}
 	fmt.Println(subArr1)
 	fmt.Println(subArr2)
 	fmt.Println(subArr3)
 	fmt.Println(subArr4)
 
-	/*
+
+	
 	list1 = append(list1, subArr1...)
 	list1 = append(list1, subArr2...)
 
-	list2 = append(list1, subArr3...)
-	list2 = append(list1, subArr4...)
+	list2 = append(list2, subArr3...)
+	list2 = append(list2, subArr4...)
+
+	fmt.Println("list1 merged: ", list1)
+	fmt.Println("list2 merged: ", list2)
 
 	go mergeRoutine(list1, channel1)
 	go mergeRoutine(list2, channel2)
 	fmt.Println("Despues de los append")
-	*/
-	// subArr1, subArr2 := <- channel1, channel2
+	subArr1 = <- channel1
+	subArr2 = <- channel2
 
-	// go mergeRoutine(append(subArr1, subArr2...), channel1)
-	// sorted_list := <- channel1
+	go mergeRoutine(append(subArr1, subArr2...), channel1)
+	sorted_list := <- channel1
 
-	// fmt.Println(sorted_list)
+	fmt.Println("Final: ", sorted_list)
 
 }
 
